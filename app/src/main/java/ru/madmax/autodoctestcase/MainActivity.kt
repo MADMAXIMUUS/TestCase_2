@@ -17,7 +17,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.autodoctestcase.presentation.Navigation
+import ru.madmax.autodoctestcase.util.Navigation
 import ru.madmax.autodoctestcase.ui.theme.AutodocTestCaseTheme
 import ru.madmax.autodoctestcase.ui.theme.Theme
 import ru.madmax.autodoctestcase.util.Screen

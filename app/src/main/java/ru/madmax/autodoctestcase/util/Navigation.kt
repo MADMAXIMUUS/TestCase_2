@@ -1,4 +1,4 @@
-package ru.madmax.autodoctestcase.presentation
+package ru.madmax.autodoctestcase.util
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize

@@ -9,6 +9,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.madmax.autodoctestcase.data.remote.GitHubApi
+import ru.madmax.autodoctestcase.data.repository.GitHubRepositoryImpl
+import ru.madmax.autodoctestcase.domain.repository.GitHubRepository
+import ru.madmax.autodoctestcase.domain.use_case.GetRepositoriesUseCase
+import ru.madmax.autodoctestcase.domain.use_case.GetUserUseCase
+import ru.madmax.autodoctestcase.domain.use_case.GitHubUseCases
 import javax.inject.Singleton
 
 @Module
@@ -29,8 +34,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePostApi(client: OkHttpClient): GitHubApi {
-        return  Retrofit.Builder()
+    fun provideGitGubApi(client: OkHttpClient): GitHubApi {
+        return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(GitHubApi.BASE_URL)
             .client(client)
@@ -38,4 +43,18 @@ object AppModule {
             .create(GitHubApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideGitHubRepository(gitHubApi: GitHubApi): GitHubRepository {
+        return GitHubRepositoryImpl(gitHubApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGitHubUseCases(gitHubRepository: GitHubRepository): GitHubUseCases {
+        return GitHubUseCases(
+            GetRepositoriesUseCase(gitHubRepository),
+            GetUserUseCase(gitHubRepository)
+        )
+    }
 }

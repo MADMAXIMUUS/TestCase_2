@@ -13,7 +13,8 @@ interface GitHubRepository {
         perPage: Int
     ): Resource<List<Item>>
 
-    fun getUser(
+    suspend fun getUser(
         username: String
     ): Resource<User>
+
 }
