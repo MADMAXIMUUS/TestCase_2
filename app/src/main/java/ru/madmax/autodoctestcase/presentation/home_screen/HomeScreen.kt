@@ -13,16 +13,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.ImageLoader
 import ru.madmax.autodoctestcase.R
 import ru.madmax.autodoctestcase.presentation.home_screen.component.RepositoryCard
 import ru.madmax.autodoctestcase.ui.theme.Theme
+import ru.madmax.autodoctestcase.util.Screen
 
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
     scaffoldState: ScaffoldState,
     imageLoader: ImageLoader,
+    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val homeState = viewModel.homeState.value
@@ -121,7 +124,7 @@ fun HomeScreen(
                             repository = repository,
                             imageLoader = imageLoader,
                             onClick = {
-
+                                navController.navigate(Screen.Owner.route + "/${repository.owner_name}")
                             }
                         )
                         if (i < homeState.items.size - 1) {

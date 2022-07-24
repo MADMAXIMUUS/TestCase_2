@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import ru.madmax.autodoctestcase.R
@@ -36,10 +37,11 @@ data class AutoDocTypes(
     val aboutMessageText: TextStyle,
     val descriptionText: TextStyle,
     val linkText: TextStyle,
-    val followText: TextStyle
+    val followText: TextStyle,
+    val sectionTitleText: TextStyle
 )
 
-val autoDocTypes =AutoDocTypes(
+val autoDocTypes = AutoDocTypes(
     topBarTitleText = TextStyle(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Bold,
@@ -98,9 +100,9 @@ val autoDocTypes =AutoDocTypes(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Bold,
         fontStyle = FontStyle.Normal,
-        fontSize = 16.sp
+        fontSize = 22.sp
     ),
-    aboutMessageText =TextStyle(
+    aboutMessageText = TextStyle(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Medium,
         fontStyle = FontStyle.Normal,
@@ -110,6 +112,7 @@ val autoDocTypes =AutoDocTypes(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Normal,
         fontStyle = FontStyle.Normal,
+        textAlign = TextAlign.Justify,
         fontSize = 14.sp
     ),
     linkText = TextStyle(
@@ -124,6 +127,12 @@ val autoDocTypes =AutoDocTypes(
         fontWeight = FontWeight.Medium,
         fontStyle = FontStyle.Normal,
         fontSize = 14.sp
+    ),
+    sectionTitleText = TextStyle(
+        fontFamily = BloggerSans,
+        fontWeight = FontWeight.Bold,
+        fontStyle = FontStyle.Normal,
+        fontSize = 16.sp
     )
 )
 

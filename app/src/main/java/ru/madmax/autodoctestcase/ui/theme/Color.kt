@@ -24,6 +24,7 @@ data class AutoDocColors(
     val barIconColor: Color,
     val headerTextColor: Color,
     val descriptionColor: Color,
+    val sectionTitleColor: Color,
     val cardTitleTextColor: Color,
     val cardDescriptionTextColor: Color,
     val cardDateTextColor: Color,
@@ -36,7 +37,8 @@ data class AutoDocColors(
     val textFieldBackgroundColor: Color,
     val textFieldTextColor: Color,
     val textFieldHintColor: Color,
-    val linkTextColor: Color
+    val linkTextColor: Color,
+    val followTextColor: Color
 )
 
 val AutoDocDarkColorPalette = AutoDocColors(
@@ -45,6 +47,7 @@ val AutoDocDarkColorPalette = AutoDocColors(
     barColor = Dark_Charcoal,
     barIconColor = Apple,
     headerTextColor = Apple,
+    sectionTitleColor = Apple,
     descriptionColor = Chinese_White,
     cardTitleTextColor = Cultured,
     cardDescriptionTextColor = Philippine_Gray,
@@ -58,7 +61,8 @@ val AutoDocDarkColorPalette = AutoDocColors(
     textFieldBackgroundColor = Onyx,
     textFieldTextColor = Lotion,
     textFieldHintColor = Spanish_Gray,
-    linkTextColor = Cyan_Blue_Azure
+    linkTextColor = Cyan_Blue_Azure,
+    followTextColor = Philippine_Gray
 )
 
 val AutoDocLightColorPalette = AutoDocColors(
@@ -67,6 +71,7 @@ val AutoDocLightColorPalette = AutoDocColors(
     barColor = Lotion,
     barIconColor = Cyan_Blue_Azure,
     headerTextColor = Apple,
+    sectionTitleColor = Apple,
     descriptionColor = Color(0xFF000000),
     cardTitleTextColor = Dark_Charcoal,
     cardDescriptionTextColor = Dim_Gray,
@@ -80,7 +85,8 @@ val AutoDocLightColorPalette = AutoDocColors(
     textFieldBackgroundColor = Cultured,
     textFieldTextColor = Dark_Charcoal,
     textFieldHintColor = Philippine_Gray,
-    linkTextColor = Cyan_Blue_Azure
+    linkTextColor = Cyan_Blue_Azure,
+    followTextColor = Dim_Gray
 )
 
 val LocalAutoDocColors = staticCompositionLocalOf<AutoDocColors> {

@@ -16,6 +16,7 @@ import androidx.navigation.navArgument
 import coil.ImageLoader
 import ru.madmax.autodoctestcase.presentation.about_screen.AboutScreen
 import ru.madmax.autodoctestcase.presentation.home_screen.HomeScreen
+import ru.madmax.autodoctestcase.presentation.owner_screen.OwnerScreen
 import ru.madmax.autodoctestcase.ui.theme.Theme
 
 
@@ -38,7 +39,8 @@ fun Navigation(
         composable(Screen.Home.route) {
             HomeScreen(
                 scaffoldState,
-                imageLoader
+                imageLoader,
+                navController
             )
         }
         composable(Screen.About.route) {
@@ -50,8 +52,12 @@ fun Navigation(
                     type = NavType.StringType
                 }
             )) {
-            val username = it.arguments?.getString("edit")!!
-
+            val username = it.arguments?.getString("username")!!
+            OwnerScreen(
+                imageLoader = imageLoader,
+                navController = navController,
+                ownerLogin = username
+            )
         }
     }
 }
