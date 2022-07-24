@@ -1,5 +1,6 @@
 package ru.madmax.autodoctestcase.data.remote
 
+import com.google.gson.JsonObject
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,6 +21,12 @@ interface GitHubApi {
     suspend fun getUser(
         @Path("username") username: String
     ): User
+
+    @GET("repos/{owner}/{repos}/languages")
+    suspend fun getLanguages(
+        @Path("owner") name: String,
+        @Path("repos") repos: String
+    ): JsonObject
 
     companion object {
         const val BASE_URL = "https://api.github.com/"

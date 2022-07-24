@@ -9,6 +9,6 @@ class GetRepositoriesUseCase(
     suspend operator fun invoke(
         query: String,
         page: Int,
-        perPage: Int
+        perPage: Int = 30
     ) = gitHubRepository.getRepositories(query, page, perPage)
 }

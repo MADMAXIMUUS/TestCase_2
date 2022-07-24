@@ -1,11 +1,13 @@
 package ru.madmax.autodoctestcase.ui.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import ru.madmax.autodoctestcase.R
 
@@ -23,7 +25,7 @@ val BloggerSans = FontFamily(
 data class AutoDocTypes(
     val topBarTitleText: TextStyle,
     val bottomBarText: TextStyle,
-    val cardHeaderText: TextStyle,
+    val cardTitleText: TextStyle,
     val cardDescriptionText: TextStyle,
     val cardDateText: TextStyle,
     val cardTagText: TextStyle,
@@ -31,6 +33,7 @@ data class AutoDocTypes(
     val textFieldText: TextStyle,
     val textFieldHint: TextStyle,
     val headerText: TextStyle,
+    val aboutMessageText: TextStyle,
     val descriptionText: TextStyle,
     val linkText: TextStyle,
     val followText: TextStyle
@@ -49,7 +52,7 @@ val autoDocTypes =AutoDocTypes(
         fontStyle = FontStyle.Normal,
         fontSize = 12.sp
     ),
-    cardHeaderText = TextStyle(
+    cardTitleText = TextStyle(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Bold,
         fontStyle = FontStyle.Normal,
@@ -97,6 +100,12 @@ val autoDocTypes =AutoDocTypes(
         fontStyle = FontStyle.Normal,
         fontSize = 16.sp
     ),
+    aboutMessageText =TextStyle(
+        fontFamily = BloggerSans,
+        fontWeight = FontWeight.Medium,
+        fontStyle = FontStyle.Normal,
+        fontSize = 20.sp
+    ),
     descriptionText = TextStyle(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Normal,
@@ -107,6 +116,7 @@ val autoDocTypes =AutoDocTypes(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Medium,
         fontStyle = FontStyle.Normal,
+        textDecoration = TextDecoration.Underline,
         fontSize = 16.sp
     ),
     followText = TextStyle(

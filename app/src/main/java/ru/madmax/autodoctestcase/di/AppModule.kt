@@ -1,5 +1,7 @@
 package ru.madmax.autodoctestcase.di
 
+import android.app.Application
+import coil.ImageLoader
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,11 +26,26 @@ object AppModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor {
+                val token = "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"
+                val modifiedRequest = it.request().newBuilder()
+                    .addHeader("Authorization", "token $token")
+                    .build()
+                it.proceed(modifiedRequest)
+            }
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 }
             )
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideImageLoader(app: Application): ImageLoader {
+        return ImageLoader.Builder(app)
+            .crossfade(true)
             .build()
     }
 

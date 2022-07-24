@@ -3,7 +3,7 @@ package ru.madmax.autodoctestcase.data.repository
 import okio.IOException
 import retrofit2.HttpException
 import ru.madmax.autodoctestcase.data.remote.GitHubApi
-import ru.madmax.autodoctestcase.domain.models.Item
+import ru.madmax.autodoctestcase.domain.models.RepositoryItem
 import ru.madmax.autodoctestcase.domain.models.User
 import ru.madmax.autodoctestcase.domain.repository.GitHubRepository
 import ru.madmax.autodoctestcase.util.Resource
@@ -16,11 +16,16 @@ class GitHubRepositoryImpl(
         query: String,
         page: Int,
         perPage: Int
-    ): Resource<List<Item>> {
+    ): Resource<List<RepositoryItem>> {
         return try {
             val response = gitHubApi.search(query, page, perPage)
+            val list: MutableList<RepositoryItem> = mutableListOf()
             if (response.items.isNotEmpty()) {
-                Resource.Success(response.items)
+                response.items.forEach {
+                    val languages = gitHubApi.getLanguages(it.owner.login, it.name)
+                    list.add(it.toRepositoryItem(languages.keySet().toList()))
+                }
+                Resource.Success(list)
             } else {
                 Resource.Error("Ошибка")
             }
@@ -39,8 +44,7 @@ class GitHubRepositoryImpl(
             } else {
                 Resource.Error("Ошибка")
             }
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             Resource.Error("Ой, что-то пошло не так. Проверьте подключение к интернету")
         } catch (e: HttpException) {
             Resource.Error("Мы пытались, но что-то пошло не так. Обновите страницу")

@@ -1,12 +1,12 @@
 package ru.madmax.autodoctestcase.util
 
-import ru.madmax.autodoctestcase.domain.models.Item
+import ru.madmax.autodoctestcase.domain.models.RepositoryItem
 
 class RepositoriesPaginator(
     private val onLoadUpdated: (Boolean) -> Unit,
-    private val onRequest: suspend (nextPage: Int) -> Resource<List<Item>>,
+    private val onRequest: suspend (nextPage: Int) -> Resource<List<RepositoryItem>>,
     private val onError: suspend (String) -> Unit,
-    private val onSuccess: (items: List<Item>) -> Unit
+    private val onSuccess: (items: List<RepositoryItem>) -> Unit
 ) {
 
     private var page = 0

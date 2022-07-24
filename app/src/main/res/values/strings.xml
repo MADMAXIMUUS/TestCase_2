@@ -4,4 +4,5 @@
     <string name="bottom_about">О программе</string>
     <string name="error_couldnt_reach_server">Ой, что-то пошло не так. Проверьте подключение к интернету</string>
     <string name="oops_something_went_wrong">Мы пытались, но что-то пошло не так. Обновите страницу</string>
+    <string name="about_description">Данная программа позволяет искать публичные репозитории на GitHub, а также просматривать основную информацию об их владельцах.\n\nПрограмма создана в качестве тестового задания для компании Autodoc.</string>
 </resources>

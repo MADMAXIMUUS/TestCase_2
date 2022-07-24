@@ -21,9 +21,10 @@ data class AutoDocColors(
     val primaryBackgroundColor: Color,
     val cardBackgroundColor: Color,
     val barColor: Color,
+    val barIconColor: Color,
     val headerTextColor: Color,
     val descriptionColor: Color,
-    val cardHeaderTextColor: Color,
+    val cardTitleTextColor: Color,
     val cardDescriptionTextColor: Color,
     val cardDateTextColor: Color,
     val cardStarTextColor: Color,
@@ -35,15 +36,17 @@ data class AutoDocColors(
     val textFieldBackgroundColor: Color,
     val textFieldTextColor: Color,
     val textFieldHintColor: Color,
+    val linkTextColor: Color
 )
 
 val AutoDocDarkColorPalette = AutoDocColors(
     primaryBackgroundColor = Chinese_Black,
     cardBackgroundColor = Onyx,
     barColor = Dark_Charcoal,
+    barIconColor = Apple,
     headerTextColor = Apple,
     descriptionColor = Chinese_White,
-    cardHeaderTextColor = Cultured,
+    cardTitleTextColor = Cultured,
     cardDescriptionTextColor = Philippine_Gray,
     cardDateTextColor = Spanish_Gray,
     cardStarTextColor = American_Yellow,
@@ -55,15 +58,17 @@ val AutoDocDarkColorPalette = AutoDocColors(
     textFieldBackgroundColor = Onyx,
     textFieldTextColor = Lotion,
     textFieldHintColor = Spanish_Gray,
+    linkTextColor = Cyan_Blue_Azure
 )
 
 val AutoDocLightColorPalette = AutoDocColors(
     primaryBackgroundColor = Color(0xFFFFFFFF),
     cardBackgroundColor = Cultured,
     barColor = Lotion,
+    barIconColor = Cyan_Blue_Azure,
     headerTextColor = Apple,
     descriptionColor = Color(0xFF000000),
-    cardHeaderTextColor = Dark_Charcoal,
+    cardTitleTextColor = Dark_Charcoal,
     cardDescriptionTextColor = Dim_Gray,
     cardDateTextColor = Spanish_Gray,
     cardStarTextColor = American_Yellow,
@@ -74,7 +79,8 @@ val AutoDocLightColorPalette = AutoDocColors(
     topBarTitleColor = Cyan_Blue_Azure,
     textFieldBackgroundColor = Cultured,
     textFieldTextColor = Dark_Charcoal,
-    textFieldHintColor = Philippine_Gray
+    textFieldHintColor = Philippine_Gray,
+    linkTextColor = Cyan_Blue_Azure
 )
 
 val LocalAutoDocColors = staticCompositionLocalOf<AutoDocColors> {

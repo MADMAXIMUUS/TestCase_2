@@ -1,7 +1,6 @@
 package ru.madmax.autodoctestcase.domain.repository
 
-import ru.madmax.autodoctestcase.domain.models.Item
-import ru.madmax.autodoctestcase.domain.models.Response
+import ru.madmax.autodoctestcase.domain.models.RepositoryItem
 import ru.madmax.autodoctestcase.domain.models.User
 import ru.madmax.autodoctestcase.util.Resource
 
@@ -11,7 +10,7 @@ interface GitHubRepository {
         query: String,
         page: Int,
         perPage: Int
-    ): Resource<List<Item>>
+    ): Resource<List<RepositoryItem>>
 
     suspend fun getUser(
         username: String
