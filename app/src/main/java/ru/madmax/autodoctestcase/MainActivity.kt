@@ -44,7 +44,6 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val scaffoldState = rememberScaffoldState()
-                    val showFloatingButton by remember { mutableStateOf(false) }
                     Scaffold(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -111,7 +110,7 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                         content = { padding ->
-                            Navigation(navController, scaffoldState, padding, imageLoader)
+                            Navigation(navController, padding, imageLoader)
                         },
                         scaffoldState = scaffoldState
                     )

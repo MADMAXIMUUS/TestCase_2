@@ -13,24 +13,42 @@ fun MyGridLayout(
         modifier = modifier,
         content = content
     ) { measurables, constraints ->
+
+        val looseConstraints = constraints.copy(
+            minWidth = 0,
+            minHeight = 0
+        )
+
         val placeables = measurables.map { measurable ->
-            measurable.measure(constraints)
+            measurable.measure(looseConstraints)
         }
 
-        layout(constraints.maxWidth, constraints.maxHeight) {
+
+        var maxHeight = placeables.maxOfOrNull { it.height } ?: 0
+        var x = 0
+        placeables.forEach { placeable ->
+            if (x + placeable.width > constraints.maxWidth) {
+                maxHeight += placeable.height + 10
+                x = 0
+            }
+            x += placeable.width
+        }
+
+        layout(constraints.maxWidth, maxHeight) {
+
             var yPosition = 0
             var xPosition = 0
 
             placeables.forEach { placeable ->
 
-                if (xPosition + placeable.measuredWidth > constraints.maxWidth) {
-                    yPosition += placeable.measuredHeight
+                if (xPosition + placeable.width > constraints.maxWidth) {
+                    yPosition += placeable.height + 10
                     xPosition = 0
                 }
 
                 placeable.place(x = xPosition, y = yPosition)
 
-                xPosition += placeable.measuredWidth
+                xPosition += placeable.width
             }
         }
     }

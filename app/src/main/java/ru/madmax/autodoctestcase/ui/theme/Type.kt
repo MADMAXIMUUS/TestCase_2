@@ -110,10 +110,10 @@ val autoDocTypes = AutoDocTypes(
     ),
     descriptionText = TextStyle(
         fontFamily = BloggerSans,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontStyle = FontStyle.Normal,
         textAlign = TextAlign.Justify,
-        fontSize = 14.sp
+        fontSize = 18.sp
     ),
     linkText = TextStyle(
         fontFamily = BloggerSans,
@@ -132,7 +132,7 @@ val autoDocTypes = AutoDocTypes(
         fontFamily = BloggerSans,
         fontWeight = FontWeight.Bold,
         fontStyle = FontStyle.Normal,
-        fontSize = 16.sp
+        fontSize = 20.sp
     )
 )
 

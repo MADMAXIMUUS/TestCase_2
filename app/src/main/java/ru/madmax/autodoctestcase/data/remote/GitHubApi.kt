@@ -4,9 +4,8 @@ import com.google.gson.JsonObject
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.madmax.autodoctestcase.domain.models.Item
+import ru.madmax.autodoctestcase.domain.models.OwnerResponse
 import ru.madmax.autodoctestcase.domain.models.Response
-import ru.madmax.autodoctestcase.domain.models.User
 
 interface GitHubApi {
 
@@ -20,7 +19,7 @@ interface GitHubApi {
     @GET("users/{username}")
     suspend fun getUser(
         @Path("username") username: String
-    ): User
+    ): OwnerResponse
 
     @GET("repos/{owner}/{repos}/languages")
     suspend fun getLanguages(

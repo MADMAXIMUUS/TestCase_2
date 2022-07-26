@@ -3,8 +3,8 @@ package ru.madmax.autodoctestcase.data.repository
 import okio.IOException
 import retrofit2.HttpException
 import ru.madmax.autodoctestcase.data.remote.GitHubApi
+import ru.madmax.autodoctestcase.domain.models.OwnerDetails
 import ru.madmax.autodoctestcase.domain.models.RepositoryItem
-import ru.madmax.autodoctestcase.domain.models.User
 import ru.madmax.autodoctestcase.domain.repository.GitHubRepository
 import ru.madmax.autodoctestcase.util.Resource
 
@@ -22,7 +22,8 @@ class GitHubRepositoryImpl(
             val list: MutableList<RepositoryItem> = mutableListOf()
             if (response.items.isNotEmpty()) {
                 response.items.forEach {
-                    val languages = gitHubApi.getLanguages(it.owner.login, it.name)
+                    val languages =
+                        gitHubApi.getLanguages(it.owner?.login.toString(), it.name.toString())
                     list.add(it.toRepositoryItem(languages.keySet().toList()))
                 }
                 Resource.Success(list)
@@ -36,11 +37,11 @@ class GitHubRepositoryImpl(
         }
     }
 
-    override suspend fun getUser(username: String): Resource<User> {
+    override suspend fun getUser(username: String): Resource<OwnerDetails> {
         return try {
             val response = gitHubApi.getUser(username)
-            if (response.login.isNotEmpty()) {
-                Resource.Success(response)
+            if (response.login.toString().isNotEmpty()) {
+                Resource.Success(response.toOwnerDetails())
             } else {
                 Resource.Error("Ошибка")
             }

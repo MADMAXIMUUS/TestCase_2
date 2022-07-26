@@ -24,7 +24,6 @@ import ru.madmax.autodoctestcase.ui.theme.Theme
 @Composable
 fun Navigation(
     navController: NavHostController,
-    scaffoldState: ScaffoldState,
     paddingValues: PaddingValues,
     imageLoader: ImageLoader
 ) {
@@ -38,7 +37,6 @@ fun Navigation(
     ) {
         composable(Screen.Home.route) {
             HomeScreen(
-                scaffoldState,
                 imageLoader,
                 navController
             )

@@ -3,10 +3,12 @@ package ru.madmax.autodoctestcase.presentation.home_screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -15,7 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.ImageLoader
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.launch
 import ru.madmax.autodoctestcase.R
+import ru.madmax.autodoctestcase.presentation.home_screen.component.Refresher
 import ru.madmax.autodoctestcase.presentation.home_screen.component.RepositoryCard
 import ru.madmax.autodoctestcase.ui.theme.Theme
 import ru.madmax.autodoctestcase.util.Screen
@@ -23,13 +30,16 @@ import ru.madmax.autodoctestcase.util.Screen
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
-    scaffoldState: ScaffoldState,
     imageLoader: ImageLoader,
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val homeState = viewModel.homeState.value
+    val lazyState = rememberLazyListState()
+    val coroutine = rememberCoroutineScope()
     Scaffold(
+        modifier = Modifier
+            .fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = {
@@ -47,7 +57,10 @@ fun HomeScreen(
             if (viewModel.homeState.value.isShowFab)
                 FloatingActionButton(
                     onClick = {
-
+                        viewModel.onEvent(HomeEvent.DismissFab)
+                        coroutine.launch {
+                            lazyState.animateScrollToItem(0)
+                        }
                     },
                     backgroundColor = Theme.colors.barIconColor
                 ) {
@@ -61,6 +74,7 @@ fun HomeScreen(
         Column(
             Modifier
                 .fillMaxSize()
+                .padding(it)
                 .background(Theme.colors.primaryBackgroundColor)
         ) {
             OutlinedTextField(
@@ -103,41 +117,52 @@ fun HomeScreen(
                         viewModel.onEvent(HomeEvent.Search)
                     }
                 ),
-                onValueChange = {
-                    viewModel.onEvent(HomeEvent.EnterQuery(it))
+                onValueChange = { query ->
+                    viewModel.onEvent(HomeEvent.EnterQuery(query))
                 }
             )
             Box(
                 Modifier
                     .fillMaxSize()
             ) {
-                LazyColumn {
-                    items(homeState.items.size) { i ->
-                        val repository = homeState.items[i]
-                        if (i >= homeState.items.size - 10 && !homeState.endReached && !homeState.isLoading) {
-                            viewModel.loadNextPosts()
-                        }
-                        if (i > 1) {
-                            viewModel.onEvent(HomeEvent.ShowFab)
-                        }
-                        RepositoryCard(
-                            repository = repository,
-                            imageLoader = imageLoader,
-                            onClick = {
-                                navController.navigate(Screen.Owner.route + "/${repository.owner_name}")
+                Refresher(
+                    isNeedToRefresh = homeState.isError,
+                    isRefresh = homeState.isRefresh,
+                    onRefresh = {
+                        viewModel.refresh()
+                    },
+                    content = {
+                        LazyColumn(
+                            state = lazyState
+                        ) {
+                            items(homeState.items.size) { i ->
+                                val repository = homeState.items[i]
+                                if (i >= homeState.items.size - 10 && !homeState.endReached && !homeState.isLoading) {
+                                    viewModel.loadNextItems()
+                                }
+                                if (i >= 10) {
+                                    viewModel.onEvent(HomeEvent.ShowFab)
+                                }
+                                RepositoryCard(
+                                    repository = repository,
+                                    imageLoader = imageLoader,
+                                    onClick = {
+                                        navController.navigate(Screen.Owner.route + "/${repository.owner_name}")
+                                    }
+                                )
+                                if (i < homeState.items.size - 1) {
+                                    Spacer(modifier = Modifier.height(20.dp))
+                                }
                             }
-                        )
-                        if (i < homeState.items.size - 1) {
-                            Spacer(modifier = Modifier.height(20.dp))
+                            item {
+                                Spacer(modifier = Modifier.height(90.dp))
+                            }
                         }
                     }
-                    item {
-                        Spacer(modifier = Modifier.height(90.dp))
-                    }
-                }
+                )
                 if (homeState.isLoading) {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(Alignment.TopCenter)
                     )
                 }
             }

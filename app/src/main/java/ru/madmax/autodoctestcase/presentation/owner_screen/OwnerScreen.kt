@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -27,6 +28,8 @@ fun OwnerScreen(
     ownerLogin: String,
     ownerViewModel: OwnerViewModel = hiltViewModel()
 ) {
+    ownerViewModel.loadOwnerDetails(ownerLogin)
+    val state = ownerViewModel.state.value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,13 +37,21 @@ fun OwnerScreen(
         TopAppBar(
             title = { },
             navigationIcon = {
-                Icon(
+                IconButton(
                     modifier = Modifier
                         .size(40.dp),
-                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = "",
-                    tint = Theme.colors.barIconColor
-                )
+                    onClick = {
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                        contentDescription = "",
+                        tint = Theme.colors.barIconColor
+                    )
+                }
             },
             elevation = 7.dp,
             backgroundColor = Theme.colors.barColor
@@ -53,10 +64,10 @@ fun OwnerScreen(
         ) {
             Image(
                 modifier = Modifier
-                    .size(70.dp)
+                    .size(100.dp)
                     .clip(Theme.shapes.photoShape),
                 painter = rememberAsyncImagePainter(
-                    model = "empty",
+                    model = state.owner.avatar_url,
                     imageLoader = imageLoader
                 ),
                 contentDescription = ""
@@ -64,12 +75,14 @@ fun OwnerScreen(
             Column {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Максим",
+                    text = state.owner.login,
                     color = Theme.colors.headerTextColor,
                     style = Theme.types.headerText
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Row(
+                    modifier = Modifier
+                        .padding(start = 5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -81,7 +94,7 @@ fun OwnerScreen(
                     )
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
-                        text = "${10} followers",
+                        text = "${state.owner.followers} followers",
                         color = Theme.colors.followTextColor,
                         style = Theme.types.followText
                     )
@@ -102,7 +115,7 @@ fun OwnerScreen(
                     )
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
-                        text = "${10} following",
+                        text = "${state.owner.following} following",
                         color = Theme.colors.followTextColor,
                         style = Theme.types.followText
                     )
@@ -113,7 +126,7 @@ fun OwnerScreen(
         Text(
             modifier = Modifier
                 .padding(horizontal = 11.dp),
-            text = "bio",
+            text = "Bio",
             style = Theme.types.sectionTitleText,
             color = Theme.colors.sectionTitleColor
         )
@@ -121,7 +134,7 @@ fun OwnerScreen(
         Text(
             modifier = Modifier
                 .padding(horizontal = 11.dp),
-            text = "Nunc fringilla ornare eleifend. Nullam finibus, augue nec lacinia sagittis, diam libero scelerisque diam, nec consequat velit sapien nec sem. Aliquam cursus enim dolor. Suspendisse potenti. Sed dapibus, nisl a mattis lobortis, urna lacus scelerisque eros, non elementum dolor ante non mauris. Suspendisse in maximus felis. Quisque consequat arcu sit amet purus mattis vulputate. In orci diam, semper eu nulla id, fermentum sollicitudin elit. Sed vel feugiat mauris. Phasellus sagittis enim nec odio feugiat commodo. Donec vitae blandit ante.",
+            text = state.owner.bio,
             style = Theme.types.descriptionText,
             color = Theme.colors.descriptionColor
         )
@@ -129,17 +142,52 @@ fun OwnerScreen(
         Text(
             modifier = Modifier
                 .padding(horizontal = 11.dp),
-            text = "links",
+            text = "Links",
             style = Theme.types.sectionTitleText,
             color = Theme.colors.sectionTitleColor
         )
-        /*Spacer(modifier = Modifier.height(5.dp))
-        Text(
+        Spacer(modifier = Modifier.height(5.dp))
+        Column(
             modifier = Modifier
-                .padding(horizontal = 11.dp),
-            text = "Nunc fringilla ornare eleifend. Nullam finibus, augue nec lacinia sagittis, diam libero scelerisque diam, nec consequat velit sapien nec sem. Aliquam cursus enim dolor. Suspendisse potenti. Sed dapibus, nisl a mattis lobortis, urna lacus scelerisque eros, non elementum dolor ante non mauris. Suspendisse in maximus felis. Quisque consequat arcu sit amet purus mattis vulputate. In orci diam, semper eu nulla id, fermentum sollicitudin elit. Sed vel feugiat mauris. Phasellus sagittis enim nec odio feugiat commodo. Donec vitae blandit ante.",
-            style = Theme.types.descriptionText,
-            color = Theme.colors.descriptionColor
-        )*/
+                .fillMaxSize()
+                .padding(horizontal = 11.dp)
+        ) {
+            if (state.owner.twitter_username.isNotEmpty()) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        modifier = Modifier.size(30.dp),
+                        painter = painterResource(id = R.drawable.ic_twitter),
+                        contentDescription = ""
+                    )
+                    Text(
+                        text = "https://twitter.com/${state.owner.twitter_username}",
+                        style = Theme.types.linkText,
+                        color = Theme.colors.linkTextColor,
+                        modifier = Modifier
+                            .padding(start = 11.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            if (state.owner.blog.isNotEmpty())
+                Row(
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier.size(30.dp),
+                        painter = painterResource(id = R.drawable.ic_internet),
+                        tint = Theme.colors.descriptionColor,
+                        contentDescription = ""
+                    )
+                    Text(
+                        text = state.owner.blog,
+                        color = Theme.colors.linkTextColor,
+                        style = Theme.types.linkText,
+                        modifier = Modifier
+                            .padding(start = 11.dp)
+                    )
+                }
+        }
     }
 }

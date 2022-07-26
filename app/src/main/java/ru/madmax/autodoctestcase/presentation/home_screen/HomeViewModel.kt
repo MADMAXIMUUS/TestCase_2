@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.madmax.autodoctestcase.domain.models.RepositoryItem
 import ru.madmax.autodoctestcase.domain.use_case.GitHubUseCases
 import ru.madmax.autodoctestcase.util.RepositoriesPaginator
 import javax.inject.Inject
@@ -34,15 +34,27 @@ class HomeViewModel @Inject constructor(
                 page = page
             )
         },
-        onSuccess = { posts ->
+        onSuccess = { items ->
             _homeState.value = homeState.value.copy(
-                items = homeState.value.items + posts,
-                endReached = posts.isEmpty(),
-                isLoading = false
+                items = homeState.value.items + items,
+                endReached = items.isEmpty(),
+                isLoading = false,
+                isError = false
             )
         },
-        onError = { message ->
-
+        onRefresh = { items ->
+            _homeState.value = homeState.value.copy(
+                items = items,
+                endReached = items.isEmpty(),
+                isLoading = false,
+                isError = false
+            )
+        },
+        onError = {
+            _homeState.value = homeState.value.copy(
+                isLoading = false,
+                isError = true
+            )
         }
     )
 
@@ -57,7 +69,7 @@ class HomeViewModel @Inject constructor(
                 _queryTextFieldState.value = event.query
             }
             HomeEvent.Search -> {
-                loadNextPosts()
+                loadNextItems()
             }
             HomeEvent.ShowFab -> {
                 _homeState.value = _homeState.value.copy(
@@ -67,8 +79,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun loadNextPosts() {
-        viewModelScope.launch {
+    fun refresh() {
+        viewModelScope.launch(Dispatchers.IO) {
+            paginator.refresh()
+        }
+    }
+
+    fun loadNextItems() {
+        viewModelScope.launch(Dispatchers.IO) {
             paginator.loadNextItems()
         }
     }

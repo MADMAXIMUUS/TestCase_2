@@ -58,10 +58,7 @@ fun AboutScreen() {
             style = Theme.types.aboutMessageText,
             color = Theme.colors.descriptionColor
         )
-        Spacer(
-            modifier = Modifier
-                .height(100.dp)
-        )
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Автор: Максим Нечаев",
             modifier = Modifier

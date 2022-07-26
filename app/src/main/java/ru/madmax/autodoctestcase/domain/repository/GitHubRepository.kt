@@ -1,7 +1,7 @@
 package ru.madmax.autodoctestcase.domain.repository
 
+import ru.madmax.autodoctestcase.domain.models.OwnerDetails
 import ru.madmax.autodoctestcase.domain.models.RepositoryItem
-import ru.madmax.autodoctestcase.domain.models.User
 import ru.madmax.autodoctestcase.util.Resource
 
 interface GitHubRepository {
@@ -14,6 +14,6 @@ interface GitHubRepository {
 
     suspend fun getUser(
         username: String
-    ): Resource<User>
+    ): Resource<OwnerDetails>
 
 }
