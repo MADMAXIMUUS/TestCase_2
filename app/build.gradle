@@ -21,6 +21,16 @@ android {
         }
     }
 
+    flavorDimensions "mode"
+    productFlavors{
+        demo{
+            dimension "mode"
+        }
+        full{
+            dimension "mode"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

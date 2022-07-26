@@ -25,6 +25,7 @@ import ru.madmax.autodoctestcase.R
 import ru.madmax.autodoctestcase.presentation.home_screen.component.Refresher
 import ru.madmax.autodoctestcase.presentation.home_screen.component.RepositoryCard
 import ru.madmax.autodoctestcase.ui.theme.Theme
+import ru.madmax.autodoctestcase.util.PARAM_APP_TYPE
 import ru.madmax.autodoctestcase.util.Screen
 
 @ExperimentalMaterialApi
@@ -147,7 +148,8 @@ fun HomeScreen(
                                     repository = repository,
                                     imageLoader = imageLoader,
                                     onClick = {
-                                        navController.navigate(Screen.Owner.route + "/${repository.owner_name}")
+                                        if (PARAM_APP_TYPE == "full")
+                                            navController.navigate(Screen.Owner.route + "/${repository.owner_name}")
                                     }
                                 )
                                 if (i < homeState.items.size - 1) {
