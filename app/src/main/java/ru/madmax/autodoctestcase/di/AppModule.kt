@@ -26,13 +26,6 @@ object AppModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor {
-                val token = "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"
-                val modifiedRequest = it.request().newBuilder()
-                    .addHeader("Authorization", "token $token")
-                    .build()
-                it.proceed(modifiedRequest)
-            }
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
